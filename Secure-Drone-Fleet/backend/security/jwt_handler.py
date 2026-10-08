@@ -1,21 +1,22 @@
-import os
 import jwt
 import datetime
 from functools import wraps
 from flask import request, jsonify
 
-
-SECRET_KEY = os.environ.get("JWT_SECRET")
-
-if not SECRET_KEY:
-    raise RuntimeError("JWT_SECRET environment variable is not set")
+from config.settings import (
+    JWT_SECRET,
+    JWT_ALGORITHM,
+    JWT_EXPIRATION_MINUTES
+)
 
 
 def create_token(username, role):
 
     expiration = (
         datetime.datetime.now(datetime.timezone.utc)
-        + datetime.timedelta(minutes=30)
+        + datetime.timedelta(
+            minutes=JWT_EXPIRATION_MINUTES
+        )
     )
 
     return jwt.encode(
@@ -24,8 +25,8 @@ def create_token(username, role):
             "role": role,
             "exp": expiration
         },
-        SECRET_KEY,
-        algorithm="HS256"
+        JWT_SECRET,
+        algorithm=JWT_ALGORITHM
     )
 
 
@@ -50,8 +51,8 @@ def token_required(function):
 
             decoded = jwt.decode(
                 token,
-                SECRET_KEY,
-                algorithms=["HS256"]
+                JWT_SECRET,
+                algorithms=[JWT_ALGORITHM]
             )
 
             request.current_user = decoded
