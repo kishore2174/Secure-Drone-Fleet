@@ -41,9 +41,9 @@ jobs:
           bandit -r app.py config routes security services -f screen
 
       - name: Run automated tests
-        working-directory: Secure-Drone-Fleet/backend
+        working-directory: Secure-Drone-Fleet
         run: |
-          pytest -v
+          pytest -v tests
 
       - name: Build Docker image
         run: |
