@@ -1,0 +1,8 @@
+<!doctype html><html><head><title>Drone Fleet</title><link rel="stylesheet" href="/static/style.css"></head>
+<body><header class="top"><div class="brand">SDFM · Secure Drone Fleet Management</div><div class="user">{{ user.name }} · {{ user.role }} · <a href="/logout" style="color:#fff">Logout</a></div></header>
+<div class="layout"><nav class="side"><a href="/dashboard">Dashboard</a><a href="/drones">Drone Fleet</a><a href="/missions">Missions</a><a href="/telemetry">Telemetry</a><a href="/reports">Reports</a></nav><main class="main">
+
+<h1>Drone Fleet Management</h1><p class="muted">Register and monitor authorized drones.</p>
+<div class="two"><section class="card"><h2>Registered Drones</h2><table class="table"><tr><th>ID</th><th>Name</th><th>Status</th><th>Battery</th><th>Location</th></tr>{% for d in drones %}<tr><td>{{ d.id }}</td><td>{{ d.name }}</td><td>{{ d.status }}</td><td>{{ d.battery }}%</td><td>{{ d.location }}</td></tr>{% endfor %}</table></section>
+<section class="card"><h2>Register Drone</h2>{% if user.role in ['ADMIN','OPERATOR'] %}<form method="post" action="/drones/register"><label class="label">Drone ID</label><input class="input" name="drone_id" placeholder="DR-004" required><label class="label">Drone Name</label><input class="input" name="name" placeholder="Falcon-04" required><div style="margin-top:18px"><button class="btn">Register Drone</button></div></form>{% else %}<p class="muted">Only ADMIN and OPERATOR roles can register drones.</p>{% endif %}</section></div>
+</main></div></body></html>

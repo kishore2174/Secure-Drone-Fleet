@@ -1,0 +1,8 @@
+<!doctype html><html><head><title>Telemetry</title><link rel="stylesheet" href="/static/style.css"></head>
+<body><header class="top"><div class="brand">SDFM · Secure Drone Fleet Management</div><div class="user">{{ user.name }} · {{ user.role }} · <a href="/logout" style="color:#fff">Logout</a></div></header>
+<div class="layout"><nav class="side"><a href="/dashboard">Dashboard</a><a href="/drones">Drone Fleet</a><a href="/missions">Missions</a><a href="/telemetry">Telemetry</a><a href="/reports">Reports</a></nav><main class="main">
+
+<h1>Telemetry & Tracking</h1><p class="muted">Monitor operational telemetry received from the fleet.</p>
+<div class="card"><table class="table"><tr><th>Drone</th><th>Battery</th><th>GPS / Location</th><th>Telemetry State</th><th>Availability</th></tr>{% for d in drones %}<tr><td><b>{{ d.id }}</b><br>{{ d.name }}</td><td>{{ d.battery }}%</td><td>{{ d.location }}</td><td>{% if d.telemetry == 'Normal' %}<span class="badge">Normal</span>{% else %}<span class="badge warn">Warning</span>{% endif %}</td><td>{{ d.status }}</td></tr>{% endfor %}</table></div>
+<div class="card" style="margin-top:18px"><h2>Security considerations</h2><ul><li>Telemetry access requires authentication.</li><li>Production deployment should use TLS for telemetry transport.</li><li>GPS data should be protected against spoofing and unauthorized modification.</li><li>Telemetry commands should be authorized by role and logged.</li></ul></div>
+</main></div></body></html>

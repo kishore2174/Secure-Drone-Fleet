@@ -1,0 +1,15 @@
+<!doctype html><html><head><title>Dashboard</title><link rel="stylesheet" href="/static/style.css"></head>
+<body><header class="top"><div class="brand">SDFM · Secure Drone Fleet Management</div><div class="user">{{ user.name }} · {{ user.role }} · <a href="/logout" style="color:#fff">Logout</a></div></header>
+<div class="layout"><nav class="side"><a href="/dashboard">Dashboard</a><a href="/drones">Drone Fleet</a><a href="/missions">Missions</a><a href="/telemetry">Telemetry</a><a href="/reports">Reports</a></nav><main class="main">
+
+<h1>Fleet Dashboard</h1><p class="muted">Monitor drone availability, missions and operational status.</p>
+<div class="grid">
+<div class="card metric"><span class="muted">Registered Drones</span><strong>{{ drones|length }}</strong></div>
+<div class="card metric"><span class="muted">Active Drones</span><strong>{{ drones|selectattr('status','equalto','Active')|list|length }}</strong></div>
+<div class="card metric"><span class="muted">Active Missions</span><strong>{{ missions|selectattr('status','equalto','Running')|list|length }}</strong></div>
+<div class="card metric"><span class="muted">Warnings</span><strong>{{ drones|selectattr('telemetry','equalto','Warning')|list|length }}</strong></div>
+</div>
+<div class="two"><section class="card"><h2>Fleet Location</h2><div class="map"><div class="route"></div><span class="drone-dot d1"></span><span class="drone-dot d2"></span><span class="drone-dot d3"></span></div><p class="muted">Illustrative operational map. Production deployment can connect this panel to GPS telemetry.</p></section>
+<section class="card"><h2>Security Status</h2><p>✓ Authentication required</p><p>✓ Role-based access</p><p>✓ Mission actions restricted</p><p>✓ Telemetry endpoint protected</p><p>✓ Audit logging module planned</p></section></div>
+<div class="card" style="margin-top:18px"><h2>Current Drone Status</h2><table class="table"><tr><th>Drone</th><th>Status</th><th>Battery</th><th>Location</th><th>Telemetry</th></tr>{% for d in drones %}<tr><td><b>{{ d.id }}</b><br>{{ d.name }}</td><td>{{ d.status }}</td><td>{{ d.battery }}%<div class="bar"><span style="width:{{ d.battery }}%"></span></div></td><td>{{ d.location }}</td><td>{{ d.telemetry }}</td></tr>{% endfor %}</table></div>
+</main></div></body></html>

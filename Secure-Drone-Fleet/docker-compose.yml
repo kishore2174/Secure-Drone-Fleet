@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: sdfm-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: drone_fleet
+      POSTGRES_USER: sdfm_user
+      POSTGRES_PASSWORD: sdfm_dev_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

@@ -1,0 +1,8 @@
+<!doctype html><html><head><title>Reports</title><link rel="stylesheet" href="/static/style.css"></head>
+<body><header class="top"><div class="brand">SDFM · Secure Drone Fleet Management</div><div class="user">{{ user.name }} · {{ user.role }} · <a href="/logout" style="color:#fff">Logout</a></div></header>
+<div class="layout"><nav class="side"><a href="/dashboard">Dashboard</a><a href="/drones">Drone Fleet</a><a href="/missions">Missions</a><a href="/telemetry">Telemetry</a><a href="/reports">Reports</a></nav><main class="main">
+
+<h1>Mission Reports</h1><p class="muted">Operational summary for authorized users.</p>
+<div class="card"><table class="table"><tr><th>Mission</th><th>Drone</th><th>Operator</th><th>Status</th><th>Action</th></tr>{% for m in missions %}<tr><td>{{ m.name }}</td><td>{{ m.drone }}</td><td>{{ m.operator }}</td><td>{{ m.status }}</td><td><button class="btn secondary" onclick="window.print()">Print Report</button></td></tr>{% endfor %}</table></div>
+<div class="card" style="margin-top:18px"><h2>Report Security</h2><p>Mission reports should expose only data permitted for the logged-in operator role. Download actions should be authenticated and recorded in the audit log.</p></div>
+</main></div></body></html>

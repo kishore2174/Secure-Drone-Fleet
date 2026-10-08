@@ -1,0 +1,9 @@
+<!doctype html><html><head><title>SDFM Login</title><link rel="stylesheet" href="/static/style.css"></head>
+<body><div class="login"><div class="card"><h1>Secure Drone Fleet Management</h1><p class="muted">Authorized operator access</p>
+{% if error %}<div class="error" role="alert">{{ error }}</div>{% endif %}
+<form method="post"><label class="label">Username</label><input class="input" name="username" required autofocus>
+<label class="label">Password</label><input class="input" name="password" type="password" required>
+<div style="margin-top:18px"><button class="btn" type="submit">Sign in securely</button></div></form>
+<div class="security">🔒 JWT-based session • Argon2 password hashing • Role-based access control</div>
+<details style="margin-top:15px"><summary>Demo accounts</summary><p class="muted">ADMIN: admin / Admin@123<br>OPERATOR: operator / Operator@123<br>VIEWER: viewer / Viewer@123</p></details>
+</div></div></body></html>
