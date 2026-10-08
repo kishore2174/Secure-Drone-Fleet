@@ -1,0 +1,56 @@
+name: SDFM Secure CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  security-test-build:
+
+    runs-on: ubuntu-latest
+
+    env:
+      FLASK_SECRET: sdfm-ci-flask-secret-2026-secure-key
+      JWT_SECRET: sdfm-ci-jwt-secret-2026-secure-key
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        working-directory: Secure-Drone-Fleet/backend
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest bandit
+
+      - name: Run Bandit security scan
+        working-directory: Secure-Drone-Fleet/backend
+        run: |
+          bandit -r app.py config routes security services -f screen
+
+      - name: Run automated tests
+        working-directory: Secure-Drone-Fleet/backend
+        run: |
+          pytest -v
+
+      - name: Build Docker image
+        run: |
+          docker build \
+            -t sdfm-backend:${{ github.sha }} \
+            ./Secure-Drone-Fleet/backend
+
+      - name: Verify Docker image
+        run: |
+          docker images sdfm-backend
